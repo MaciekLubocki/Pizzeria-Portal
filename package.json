@@ -24,6 +24,7 @@
     "start:react": "react-scripts start",
     "start-and-test": "run-p start-silent test ",
     "build": "react-scripts build",
+    "lint": "esw --watch --clear",
     "test": "react-scripts test --noStackTrace",
     "test-all": "react-scripts test --watchAll=false --noStackTrace",
     "test-related": "react-scripts test --watchAll=false --noStackTrace --findRelatedTests",
@@ -40,7 +41,6 @@
       "eslint"
     ]
   },
-  
   "browserslist": {
     "production": [
       ">0.2%",
@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-watch": "^7.0.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
     "redux-devtools-extension": "^2.13.8"
