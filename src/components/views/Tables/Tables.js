@@ -1,20 +1,86 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Tables.module.scss';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const Tables = ({id='123'}) => (
-  <div className={styles.component}>
-    <h2>Tables view</h2>
-    <Link to={`${process.env.PUBLIC_URL}/tables/booking/new`}>NEW</Link>
-    <Link to={`${process.env.PUBLIC_URL}/tables/booking/${id}`}>ID</Link>
-    <Link to={`${process.env.PUBLIC_URL}/tables/events/:new`}>EVENTS_NEW</Link>
-    <Link to={`${process.env.PUBLIC_URL}/tables/events/eventID`}>ID</Link>
-  </div>
-);
+import { ViewState } from '@devexpress/dx-react-scheduler';
+import {
+  Scheduler,
+  DayView,
+  Appointments,
+  AppointmentTooltip,
+  Toolbar,
+  DateNavigator,
+} from '@devexpress/dx-react-scheduler-material-ui';
 
-Tables.propTypes = {
-  id: PropTypes.string,
+const demoBooking = [
+  {startDate: '2020-02-29 17:30', endDate: '2020-02-29 19:00', title: 'Ishioka, table 2'},
+  {startDate: '2020-02-29 14:00', endDate: '2020-02-29 18:00', title: 'Kentaro, table 3'},
+  {startDate: '2020-02-29 18:00', endDate: '2020-02-29 21:00', title: 'Hiroshi, table 4'},
+  {startDate: '2020-02-29 12:30', endDate: '2020-02-29 15:00', title: 'Kazu, table 4'},
+  {startDate: '2020-02-29 12:00', endDate: '2020-02-29 13:30', title: 'Watanabe, table 2'},
+  {startDate: '2020-02-29 19:30', endDate: '2020-02-29 23:30', title: 'Ishiro, table 3'},
+];
+
+const Tables = () => {
+
+  const [startDate, setStartDate] = useState(new Date());
+
+  return (
+    <div className={styles.component}>
+      <DatePicker
+        selected={startDate}
+        onChange={date => setStartDate(date)}
+        showTimeSelect
+        timeFormat="HH:mm"
+        timeIntervals={15}
+        timeCaption="time"
+        dateFormat="MMMM d, yyyy h:mm aa"
+      />
+      <h2> </h2>
+      <Paper>
+        <Table>
+          <TableBody>
+            <Scheduler
+              data={demoBooking}
+            >
+              <ViewState
+                defaultCurrentDate={new Date()} />
+              <DayView
+                startDayHour={12}
+                endDayHour={24}
+              />
+              <Toolbar />
+              <DateNavigator />
+              <Appointments />
+              <AppointmentTooltip />
+            </Scheduler>
+          </TableBody>
+        </Table>
+      </Paper>
+      <div className={styles.component}>
+        <ul>
+          <li>
+            <Link to={`${process.env.PUBLIC_URL}/tables/booking/new`}>New booking order</Link>
+          </li>
+          <li>
+            <Link to={`${process.env.PUBLIC_URL}/tables/events/new`}>New events order</Link>
+          </li>
+          <h2>Tables view</h2>
+          <li>
+            <Link to={`${process.env.PUBLIC_URL}/tables/booking/:id`}>Booking order</Link>
+          </li>
+          <li>
+            <Link to={`${process.env.PUBLIC_URL}/tables/events/:id`}>Events order</Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default Tables;
